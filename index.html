@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Bots Lecture | APIs and Internet Data</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient-bg" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="chip">Mobile App Development</span>
+      <h1>Battle Bots: Introduction to APIs</h1>
+    </div>
+    <div class="controls">
+      <button id="prevBtn" class="btn ghost" type="button">Previous</button>
+      <button id="nextBtn" class="btn" type="button">Next</button>
+    </div>
+  </header>
+
+  <main class="deck-wrap">
+    <aside class="side-nav" aria-label="Slide navigation">
+      <p class="nav-title">Slides</p>
+      <ul id="slideList"></ul>
+    </aside>
+
+    <section class="deck" id="deck" aria-live="polite">
+      <article class="slide active" data-title="Welcome">
+        <h2>Battle Bots Lecture</h2>
+        <p class="lead">Understanding APIs and Consuming API Data in Android Apps</p>
+        <div class="meta-grid">
+          <div class="card"><strong>Course</strong><span>Mobile App Development</span></div>
+          <div class="card"><strong>Audience</strong><span>Undergraduate students, no prior experience assumed</span></div>
+          <div class="card"><strong>Focus</strong><span>Client-server, HTTP, JSON, and Android API consumption</span></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Learning Objectives">
+        <h2>Learning Objectives</h2>
+        <ol class="list">
+          <li>Define what an API is</li>
+          <li>Explain why APIs are important in software development</li>
+          <li>Understand the client-server model</li>
+          <li>Describe how applications communicate over the Internet</li>
+          <li>Explain what JSON is and why it is commonly used</li>
+          <li>Understand the process of consuming an API in Android</li>
+          <li>Relate these concepts to the Battle Bots project</li>
+        </ol>
+      </article>
+
+      <article class="slide" data-title="Why Apps Need Data">
+        <h2>Why Applications Need Data</h2>
+        <p class="lead">Where does data come from?</p>
+        <div class="pill-row">
+          <span>Weather App</span><span>Spotify</span><span>YouTube</span><span>Facebook</span><span>Pokemon Go</span><span>Amazon</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>App</th><th>Data Retrieved</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Weather App</td><td>Current weather</td></tr>
+            <tr><td>Spotify</td><td>Songs and playlists</td></tr>
+            <tr><td>YouTube</td><td>Videos</td></tr>
+            <tr><td>Amazon</td><td>Product information</td></tr>
+            <tr><td>Battle Bots</td><td>Robot data</td></tr>
+          </tbody>
+        </table>
+        <p class="highlight">How do applications ask for this information? Through APIs.</p>
+      </article>
+
+      <article class="slide" data-title="What Is an API?">
+        <h2>What Is an API?</h2>
+        <p class="lead"><strong>API</strong> = Application Programming Interface</p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Restaurant Analogy</h3>
+            <ol class="list compact">
+              <li>You tell the waiter what you want</li>
+              <li>Waiter sends request to kitchen</li>
+              <li>Kitchen prepares food</li>
+              <li>Waiter returns with the result</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>Software Mapping</h3>
+            <ul class="list compact">
+              <li>Customer = Mobile App</li>
+              <li>Waiter = API</li>
+              <li>Kitchen = Server</li>
+              <li>Food = Data</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Why APIs Exist">
+        <h2>Why APIs Exist</h2>
+        <p>Without APIs, companies would expose databases directly. That would be dangerous and unscalable.</p>
+        <div class="meta-grid four">
+          <div class="card"><strong>Security</strong><span>No direct database access</span></div>
+          <div class="card"><strong>Consistency</strong><span>Same format for every app</span></div>
+          <div class="card"><strong>Control</strong><span>Server chooses what to share</span></div>
+          <div class="card"><strong>Scalability</strong><span>Millions of requests supported</span></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Client-Server Model">
+        <h2>Client-Server Architecture</h2>
+        <div class="flow" role="img" aria-label="Client server data flow">
+          <div>Student Android App</div>
+          <span>-></span>
+          <div>Battle Bots API</div>
+          <span>-></span>
+          <div>Robot Database</div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><h3>Client</h3><p>The app users run (Android app, browser, game).</p></div>
+          <div class="card"><h3>Server</h3><p>Stores data and processes requests (Google, Amazon, ECPI servers).</p></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Request Lifecycle">
+        <h2>What Happens During an API Request?</h2>
+        <ol class="timeline">
+          <li>User presses button</li>
+          <li>Android app sends request</li>
+          <li>API receives request</li>
+          <li>Database is queried</li>
+          <li>Data is returned</li>
+          <li>App displays response</li>
+        </ol>
+        <p class="highlight">This often happens in less than one second.</p>
+      </article>
+
+      <article class="slide" data-title="HTTP Basics">
+        <h2>HTTP Basics</h2>
+        <p><strong>HTTP</strong> (HyperText Transfer Protocol) is the language for web and API communication.</p>
+        <div class="code">
+          <pre>Browser/App  -- HTTP Request -->  Server
+Browser/App <-- HTTP Response --  Server</pre>
+        </div>
+        <div class="meta-grid four">
+          <div class="card"><strong>GET</strong><span>Retrieve information</span></div>
+          <div class="card"><strong>POST</strong><span>Create information</span></div>
+          <div class="card"><strong>PUT</strong><span>Update information</span></div>
+          <div class="card"><strong>DELETE</strong><span>Remove information</span></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Endpoints">
+        <h2>API Endpoints</h2>
+        <p>An endpoint is a specific API address or doorway into the server.</p>
+        <div class="code"><pre>https://battlebots.com/api/robots</pre></div>
+        <div class="pill-row">
+          <span>/api/robots</span><span>/api/teams</span><span>/api/matches</span><span>/api/rankings</span>
+        </div>
+      </article>
+
+      <article class="slide" data-title="JSON Format">
+        <h2>JSON: The Common API Data Format</h2>
+        <p>JSON (JavaScript Object Notation) is lightweight, readable, and easy to parse.</p>
+        <div class="grid-2">
+          <div class="code">
+            <pre>{
+  "name": "Tombstone",
+  "team": "Hardcore Robotics",
+  "wins": 25
+}</pre>
+          </div>
+          <div class="code">
+            <pre>[
+  { "name": "Tombstone" },
+  { "name": "Minotaur" },
+  { "name": "Witch Doctor" }
+]</pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Consume API">
+        <h2>What Does "Consume an API" Mean?</h2>
+        <p class="lead">Using data provided by an API inside your application.</p>
+        <ol class="list">
+          <li>Send request</li>
+          <li>Receive JSON response</li>
+          <li>Convert JSON into Java objects</li>
+          <li>Display data in the UI</li>
+        </ol>
+      </article>
+
+      <article class="slide" data-title="Battle Bots Flow">
+        <h2>Battle Bots Project Flow</h2>
+        <div class="tabs" id="projectTabs">
+          <button class="tab active" data-step="0" type="button">1. Launch</button>
+          <button class="tab" data-step="1" type="button">2. Request</button>
+          <button class="tab" data-step="2" type="button">3. Response</button>
+          <button class="tab" data-step="3" type="button">4. Parse</button>
+          <button class="tab" data-step="4" type="button">5. Display</button>
+        </div>
+        <div class="card" id="projectStepContent"></div>
+      </article>
+
+      <article class="slide" data-title="Model Classes">
+        <h2>Why We Use Model Classes</h2>
+        <div class="grid-2">
+          <div class="code">
+            <pre>{
+  "name":"Minotaur",
+  "wins":18
+}</pre>
+          </div>
+          <div class="code">
+            <pre>public class Robot {
+  private String name;
+  private int wins;
+}
+
+robot.getName();
+robot.getWins();</pre>
+          </div>
+        </div>
+        <p class="highlight">Objects are easier, safer, and less error-prone than manual string parsing.</p>
+      </article>
+
+      <article class="slide" data-title="Retrofit">
+        <h2>Retrofit (Common Android Choice)</h2>
+        <ul class="list">
+          <li>Handles HTTP requests</li>
+          <li>Parses JSON into objects</li>
+          <li>Supports error handling workflows</li>
+        </ul>
+        <div class="code">
+          <pre>@GET("robots")
+Call&lt;List&lt;Robot&gt;&gt; getRobots();</pre>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Interactive Simulator">
+        <h2>Mini API Simulator</h2>
+        <p>Try a fake request to see request and response behavior.</p>
+        <div class="sim-controls">
+          <select id="endpointSelect" aria-label="Choose endpoint">
+            <option value="robots">GET /api/robots</option>
+            <option value="teams">GET /api/teams</option>
+            <option value="rankings">GET /api/rankings</option>
+          </select>
+          <button id="simulateBtn" class="btn" type="button">Send Request</button>
+        </div>
+        <div class="code"><pre id="simOutput">Awaiting request...</pre></div>
+      </article>
+
+      <article class="slide" data-title="Why It Matters">
+        <h2>Why API Skills Matter</h2>
+        <p>Most modern software connects to external services through APIs.</p>
+        <div class="pill-row">
+          <span>Google Maps API</span><span>OpenWeather API</span><span>Spotify API</span><span>GitHub API</span><span>OpenAI API</span><span>Payment APIs</span>
+        </div>
+        <p class="highlight">Industry developers frequently read docs, make requests, parse responses, handle errors, and integrate services.</p>
+      </article>
+
+      <article class="slide" data-title="Common Problems">
+        <h2>Common Problems When Consuming APIs</h2>
+        <div class="quiz" id="errorQuiz">
+          <p><strong>Quick check:</strong> Which status code means Unauthorized?</p>
+          <div class="quiz-options">
+            <button type="button" data-answer="wrong">404</button>
+            <button type="button" data-answer="correct">401</button>
+            <button type="button" data-answer="wrong">500</button>
+          </div>
+          <p id="quizFeedback">Choose an option.</p>
+        </div>
+        <ul class="list compact">
+          <li>No Internet connection</li>
+          <li>Server offline</li>
+          <li>Incorrect endpoint (404)</li>
+          <li>Invalid API key (401)</li>
+          <li>Unexpected data causing crashes</li>
+        </ul>
+      </article>
+
+      <article class="slide" data-title="Key Takeaways">
+        <h2>Key Takeaways</h2>
+        <ul class="list">
+          <li>APIs let applications communicate</li>
+          <li>Most API interactions follow the client-server model</li>
+          <li>HTTP carries requests and responses</li>
+          <li>JSON is a common data format</li>
+          <li>Consuming an API means retrieving and using server data</li>
+          <li>Battle Bots workflow: request -> JSON -> Java objects -> UI</li>
+        </ul>
+        <p class="lead">You now have the conceptual foundation needed to build API-driven Android features.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="statusbar">
+    <div class="progress-wrap" aria-label="Slide progress">
+      <div id="progressBar"></div>
+    </div>
+    <p><span id="slideCounter">1 / 1</span> - Use arrow keys, space, or nav buttons</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
